@@ -186,7 +186,7 @@ mc_stop(){
         wd_off
     fi
     if [ $(mc_check) -ge 14 ];then
-        if [ -f $rootdir/advmc.sh ]; then
+        if [ -f $rootdir/scripts/advmc.sh ]; then
             echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $ok sending 10 sec countdown on server before stop."
             bash $rootdir/scripts/advmc.sh stopscript
         fi
