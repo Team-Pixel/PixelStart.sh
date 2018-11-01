@@ -23,20 +23,20 @@ pt_log(){
     currDate="$(date +%H:%M:%S' '%d/%m/%y)"
     case $2 in
         ok)
-            echo -e "[$currDate] $ok $1"
-            echo -e "[$currDate] [ OK ] $1" >> $rootdir/$logfile;;
+            echo -e "[$currDate] $ok StartScript > $1"
+            echo -e "[$currDate] [ OK ] StartScript > $1" >> $rootdir/$logfile;;
         info)
-            echo -e "[$currDate] $info $1"
-            echo -e "[$currDate] [INFO] $1" >> $rootdir/$logfile;;
+            echo -e "[$currDate] $info StartScript > $1"
+            echo -e "[$currDate] [INFO] StartScript > $1" >> $rootdir/$logfile;;
         warn)
-            echo -e "[$currDate] $warn $1"
-            echo -e "[$currDate] [WARN] $1" >> $rootdir/$logfile;;
+            echo -e "[$currDate] $warn StartScript > $1"
+            echo -e "[$currDate] [WARN] StartScript > $1" >> $rootdir/$logfile;;
         fail)
-            echo -e "[$currDate] $fail $1"
-            echo -e "[$currDate] [FAIL] $1" >> $rootdir/$logfile;;
+            echo -e "[$currDate] $fail StartScript > $1"
+            echo -e "[$currDate] [FAIL] StartScript > $1" >> $rootdir/$logfile;;
         *)
-            echo -e "[$currDate] [....] $1"
-            echo -e "[$currDate] [....] $1" >> $rootdir/$logfile;;
+            echo -e "[$currDate] [....] StartScript > $1"
+            echo -e "[$currDate] [....] StartScript > $1" >> $rootdir/$logfile;;
     esac
 }
 
