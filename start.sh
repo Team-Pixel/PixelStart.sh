@@ -3,7 +3,7 @@
 # ==================================
 # Minecraft Launcher
 # ==================================
-# mclauncherv="18102301"
+# mclauncherv="18110701"
 
 #Colors
 ok="[\e[1;32m OK \e[0;39m]"
@@ -158,6 +158,7 @@ root_check(){
 mc_start(){
     pt_log 'Init server start.'
     if [ $(mc_check) = 8 ] || [ $(mc_check) = 9 ];then
+        plug_check
         echo -en "[$(date +%H:%M:%S' '%d/%m/%y)] [....] Starting server (timeout set at $timeout sec)"
         cd $rootdir
         screen -dmSU $screen java -Xms$MMIN -Xmx$MMAX -jar $rootdir/$serverfile --log-strip-color nogui
@@ -531,6 +532,13 @@ wd_on(){
     watchDog='true'
     mc_conf
     pt_log 'Watchdog turned ON' 'ok'
+}
+
+plug_check(){
+    if find $rootdir/plugins/update/ -mindepth 1 -print -quit 2>/dev/null | grep -q .; then
+        pt_log 'Plugin update task found. Init plugins backups.'
+        bash -c "$rootdir/scripts/backups.sh plugins"
+    fi
 }
 
 #Go!
