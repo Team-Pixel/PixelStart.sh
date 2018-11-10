@@ -176,9 +176,7 @@ mc_start(){
             echo -e "Done"
             lsof -i:$serverPort -t > $rootdir/.start.pid
             pt_log "Server started with PID : $(cat .start.pid)" 'info'
-            if [ $1 ] && [ $1 = 'wdon' ];then
-                wd_on
-            fi
+            wd_on
         else
             echo -e "."
             pt_log 'Server fail at boot ? Timeout after $timeout sec' 'warn'
