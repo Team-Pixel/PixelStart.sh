@@ -194,15 +194,17 @@ mc_start(){
 
 mc_stop(){
     pt_log 'Init server stop.'
-    if [ $1 ] && [ $1 = 'wdoff' ];then
-        wd_off
-    fi
+    wd_off
     if [ $(mc_check) -ge 14 ];then
-        if [ -f $rootdir/scripts/advmc.sh ]; then
-            echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $ok sending 10 sec countdown on server before stop."
-            bash $rootdir/scripts/advmc.sh stopscript
+        if [ $1 ] && [ $1 = 'now' ];then
+            echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] [....] StartScript > No countdown, stopping now."
+        else
+            if [ -f $rootdir/scripts/advmc.sh ]; then
+                echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] [....] StartScript > Sending 10 sec countdown on server before stop."
+                bash $rootdir/scripts/advmc.sh stopscript
+            fi
         fi
-        echo -en "[$(date +%H:%M:%S' '%d/%m/%y)] [....] Sending save-all & stop command."
+        echo -en "[$(date +%H:%M:%S' '%d/%m/%y)] [....] StartScript > Sending save-all & stop command."
         screen -p 0 -S $screen -X stuff "save-all$(printf \\r)"
         sleep 1
         screen -p 0 -S $screen -X stuff "stop$(printf \\r)"
@@ -237,7 +239,7 @@ mc_stop(){
         if ps ax | grep -v grep | grep -i SCREEN | grep $screen > /dev/null
             then
             echo -e " $fail Error !"
-            echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] [....] Showing status..."
+            echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] [....] StartScript > Showing status..."
             sleep 1
             mc_status
         else
@@ -280,7 +282,12 @@ mc_restart(){
     else
         pt_log 'Server restart requested...'
         if [ $(mc_check) -ge 12 ];then
-            mc_stop
+            if [ $1 ] && [ $1 = 'now' ];then
+                echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] [....] StartScript > No countdown, restarting now."
+            else
+                bash $rootdir/scripts/advmc.sh reboot10s
+            fi
+            mc_stop "now"
         else
             pt_log 'But the server is not running !' 'warn'
             ((status++))
