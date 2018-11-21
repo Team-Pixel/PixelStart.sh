@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ==================================
-# Minecraft Launcher
+# Pixel's Minecraft Launcher
 # ==================================
 # mclauncherv="18110701"
 
@@ -67,7 +67,6 @@ mc_conf(){
 }
 
 if [ -f $rootdir/.start.conf ];then
-    echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] [....] Load configuration file."
     source $rootdir/.start.conf
 else
     screen='mcserver'
@@ -88,19 +87,19 @@ fi
 # Update Check
 # ==================================
 
-currCheck=$(($lastCheck+1800))
+currCheck=$(($lastCheck+3600))
 if [ 0$(date +"%s") -gt 0$currCheck ];then
     currentmclauncherv=$(curl -fs https://api.github.com/repos/TeamCookiePixel/PixelStart.sh/commits/master | grep sha | head -1 | cut --delimiter=\" -f 4)
-    echo -e "$info Checking for start.sh update..."
+    echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $info Checking for start.sh update..."
     if [ "$currentmclauncherv" != "$lastSHA" ]; then
         lastCheck=$(date +"%s")
         lastSHA=$currentmclauncherv
         mc_conf
-        echo -e "$ok New version found !"
+        echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $ok New version found !"
         wget -O $rootdir/start.sh https://raw.githubusercontent.com/TeamCookiePixel/PixelStart.sh/master/start.sh >/dev/null 2>&1
         bash $rootdir/start.sh $0 $*&&exit 0
     else
-        echo -e "$ok No update found."
+        echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $ok No update found."
     fi
     lastCheck=$(date +"%s")
     mc_conf
@@ -310,7 +309,7 @@ mc_saveoff(){
     if [ $(mc_check) -ge 14 ];then
         saves='false'
         mc_conf
-        screen -p 0 -S $screen -X stuff "tellraw @a [\"\",{\"text\":\"[Système]\",\"color\":\"gold\"},{\"text\":\" Désactivation des sauvegardes des mondes !\",\"color\":\"aqua\"}]$(printf \\r)"
+        screen -p 0 -S $screen -X stuff "tellraw @a [\"\",{\"text\":\"[Cardinal]\",\"color\":\"gold\"},{\"text\":\" Désactivation des sauvegardes des mondes !\",\"color\":\"aqua\"}]$(printf \\r)"
         screen -p 0 -S $screen -X stuff "save-off$(printf \\r)"
         screen -p 0 -S $screen -X stuff "save-all$(printf \\r)"
         pt_log 'Suspending saves.' 'ok'
@@ -327,7 +326,7 @@ mc_saveon(){
         saves='true'
         mc_conf
         screen -p 0 -S $screen -X stuff "save-on$(printf \\r)"
-        screen -p 0 -S $screen -X stuff "tellraw @a [\"\",{\"text\":\"[Système]\",\"color\":\"gold\"},{\"text\":\" Réactivation des sauvegardes des mondes !\",\"color\":\"aqua\"}]$(printf \\r)"
+        screen -p 0 -S $screen -X stuff "tellraw @a [\"\",{\"text\":\"[Cardinal]\",\"color\":\"gold\"},{\"text\":\" Réactivation des sauvegardes des mondes !\",\"color\":\"aqua\"}]$(printf \\r)"
         pt_log 'Re-enabling saves.' 'ok'
     else
         pt_log "Can't re-enabling saves, server is offline !" 'fail'
@@ -338,7 +337,6 @@ mc_saveon(){
 
 mc_status(){
     echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] [....] Showing status..."
-    sleep 1
     echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $info Server location :    $rootdir"
     echo -ne "[$(date +%H:%M:%S' '%d/%m/%y)] $info Server file :        $serverfile"
     if [ -f $rootdir/$serverfile ]; then
@@ -562,6 +560,8 @@ case $1 in
         mc_saveoff;;
     status)
         mc_status;;
+    check)
+        mc_check;;
     input)
         mc_input "$@";;
     watchdog)
@@ -573,7 +573,7 @@ case $1 in
     wdoff)
         wd_off;;
     *)
-        echo -e "Usage: $0 {start|stop|restart|status|input|watchdog}"
+        echo -e "Usage: $0 {start|stop|restart|status|check|input|watchdog}"
         exit 1;;
 esac
 exit 0
