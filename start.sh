@@ -3,7 +3,7 @@
 # ==================================
 # Pixel's Minecraft Launcher
 # ==================================
-# mclauncherv="18110701"
+# mclauncherv="18112101"
 
 #Colors
 ok="[\e[1;32m OK \e[0;39m]"
