@@ -87,23 +87,23 @@ fi
 # Update Check
 # ==================================
 
-currCheck=$(($lastCheck+3600))
-if [ 0$(date +"%s") -gt 0$currCheck ];then
-    currentmclauncherv=$(curl -fs https://api.github.com/repos/TeamCookiePixel/PixelStart.sh/commits/master | grep sha | head -1 | cut --delimiter=\" -f 4)
-    echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $info Checking for start.sh update..."
-    if [ "$currentmclauncherv" != "$lastSHA" ]; then
-        lastCheck=$(date +"%s")
-        lastSHA=$currentmclauncherv
-        mc_conf
-        echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $ok New version found !"
-        wget -O $rootdir/start.sh https://raw.githubusercontent.com/TeamCookiePixel/PixelStart.sh/master/start.sh >/dev/null 2>&1
-        bash $rootdir/start.sh $0 $*&&exit 0
-    else
-        echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $ok No update found."
-    fi
-    lastCheck=$(date +"%s")
-    mc_conf
-fi
+# currCheck=$(($lastCheck+3600))
+# if [ 0$(date +"%s") -gt 0$currCheck ];then
+    # currentmclauncherv=$(curl -fs https://api.github.com/repos/TeamCookiePixel/PixelStart.sh/commits/master | grep sha | head -1 | cut --delimiter=\" -f 4)
+    # echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $info Checking for start.sh update..."
+    # if [ "$currentmclauncherv" != "$lastSHA" ]; then
+        # lastCheck=$(date +"%s")
+        # lastSHA=$currentmclauncherv
+        # mc_conf
+        # echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $ok New version found !"
+        # wget -O $rootdir/start.sh https://raw.githubusercontent.com/TeamCookiePixel/PixelStart.sh/master/start.sh >/dev/null 2>&1
+        # bash $rootdir/start.sh $0 $*&&exit 0
+    # else
+        # echo -e "[$(date +%H:%M:%S' '%d/%m/%y)] $ok No update found."
+    # fi
+    # lastCheck=$(date +"%s")
+    # mc_conf
+# fi
 
 # ==================================
 # Vars
